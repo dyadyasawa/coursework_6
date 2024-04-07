@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "coursework-6"
+version = "0.1.0"
+description = "coursework_6(django)"
+authors = ["dyadyasawa <dyadyasawa@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+Django = "^5.0.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
