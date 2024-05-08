@@ -2,6 +2,7 @@
 name = "coursework-6"
 version = "0.1.0"
 description = "Mailings"
+
 authors = ["dyadyasawa <dyadyasawa@gmail.com>"]
 readme = "README.md"
 
@@ -13,7 +14,6 @@ pillow = "^10.3.0"
 ipython = "^8.24.0"
 redis = "^5.0.4"
 python-dotenv = "^1.0.1"
-
 
 [build-system]
 requires = ["poetry-core"]
