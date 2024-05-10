@@ -25,3 +25,10 @@ class MessageForm(StyleMixin):
     class Meta:
         model = Message
         fields = '__all__'
+
+
+class ClientForm(StyleMixin):
+
+    class Meta:
+        model = Client
+        fields = '__all__'
