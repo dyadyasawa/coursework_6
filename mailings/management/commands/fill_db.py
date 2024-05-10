@@ -16,7 +16,7 @@ class Command(BaseCommand):
             mailing_json = json.load(file)
 
             for item in mailing_json:
-                result_mailings_list.append(item)
+                result_mailings_list.append(item['fields'])
         return result_mailings_list
 
     def get_data_from_client(self):
@@ -63,11 +63,11 @@ class Command(BaseCommand):
         for mailings_item in self.get_data_from_mailings():
             mailings_for_create.append(
                 Mailing(pk=mailings_item["pk"],
-                        time_start=mailings_item["fields"]["time_start"],
-                        time_end=mailings_item["fields"]["time_end"],
-                        period = mailings_item["fields"]["period"],
+                        time_start=mailings_item["time_start"],
+                        time_end=mailings_item["time_end"],
+                        period = mailings_item["period"],
                         message=Message.objects.get(pk=mailings_item["message"]),
-                        clients=mailings_item["fields"]["clients"]),
+                        clients=Client.objects.get(pk=mailings_item["clients"][0])),
                         )
         Mailing.objects.bulk_create(mailings_for_create)
 
