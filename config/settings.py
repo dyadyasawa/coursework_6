@@ -136,13 +136,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# AUTH_USER_MODEL = 'users.User'
-#
-# LOGIN_REDIRECT_URL = '/'
-# LOGOUT_REDIRECT_URL = '/'
+AUTH_USER_MODEL = 'users.User'
+
+LOGIN_REDIRECT_URL = '/mailings_list/'
+LOGOUT_REDIRECT_URL = '/'
+
 # REDIRECT_LOGIN_URL = '/users/login'
 # LOGIN_URL = '/users/login/'
 #
+
 # EMAIL_HOST = os.getenv('EMAIL_HOST')
 # EMAIL_PORT = os.getenv('EMAIL_PORT')
 # EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
@@ -153,6 +155,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # SERVER_EMAIL = EMAIL_HOST_USER
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 #
+
 # CACHE_ENABLED = True
 # if CACHE_ENABLED:
 #     CACHES = {
