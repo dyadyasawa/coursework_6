@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from mailings.forms import MailingForm, MessageForm, ClientForm
-from mailings.models import Mailing, Message, Client
+from mailings.models import Mailing, Message, Client, Log
 
 
 class StartPageView(TemplateView):
@@ -102,3 +102,8 @@ class MessageDeleteView(DeleteView):
     model = Message
     template_name = 'mailings_app/message_confirm_delete.html'
     success_url = reverse_lazy('mailings:message_list')
+
+
+class LogsListView(ListView):
+    model = Log
+    template_name = 'mailings_app/logs_list.html'
