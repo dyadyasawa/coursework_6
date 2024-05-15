@@ -49,7 +49,7 @@ def send_mailings(mailing):
     body = mailing.message.message
     from_email = settings.EMAIL_HOST_USER
     to_emails = [client.email for client in mailing.clients.all()]
-    send_mail(title, body, from_email, to_emails)
+    send_mail(title, body, from_email, to_emails,)
 
 
 def add_job(mailing):
