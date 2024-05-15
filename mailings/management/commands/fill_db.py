@@ -6,6 +6,10 @@ import psycopg2
 
 import json
 
+""" 
+    Возникает ошибка в предпоследней строке(подписано) при заполнении таблицы Mailing
+    данными из таблицы Client(ManyToMany). Пока не разобрался как сделать чтобы работало корректно.
+"""
 
 class Command(BaseCommand):
 
@@ -87,6 +91,6 @@ class Command(BaseCommand):
                         period = mailings_item['fields']["period"],
                         message=Message.objects.get(pk=mailings_item['fields']['message']),
 
-                        clients=Client.objects.get(pk=mailings_item['fields']["clients"][0])),
+                        clients=Client.objects.get(pk=mailings_item['fields']["clients"][0])), # Здесь ошибка
                         )
         Mailing.objects.bulk_create(mailings_for_create)
