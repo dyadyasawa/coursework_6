@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'mailings',
     'users',
 
-    'django-apscheduler',
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
@@ -145,24 +145,26 @@ LOGOUT_REDIRECT_URL = '/'
 
 # REDIRECT_LOGIN_URL = '/users/login'
 # LOGIN_URL = '/users/login/'
-#
 
-# EMAIL_HOST = os.getenv('EMAIL_HOST')
-# EMAIL_PORT = os.getenv('EMAIL_PORT')
-# EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS') == 'True'
-# EMAIL_USE_SSL = os.getenv('EMAIL_USE_SSL') == 'True'
-EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
-#
+
+EMAIL_HOST = 'smtp.yandex.ru'
+EMAIL_PORT = 465
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST_USER = 'd0n.alehandro@yandex.ru'
+EMAIL_HOST_PASSWORD = 'zyodemjyqvtsfcdi'
+
 # SERVER_EMAIL = EMAIL_HOST_USER
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-#
+
+APSCHEDULER_DATETIME_FORMAT = 'N j, Y, f:s a'
+APSCHEDULER_RUN_NOW_TIMEOUT = 25  # Seconds
 
 # CACHE_ENABLED = True
 # if CACHE_ENABLED:
 #     CACHES = {
 #         'default': {
 #         'BACKEND': 'django.core.cache.backends.redis.RedisCache',
-#         'LOCATION': os.getenv('LOCATION')
+#         'LOCATION': 'redis://localhost:6379'
 #         }
 #     }
