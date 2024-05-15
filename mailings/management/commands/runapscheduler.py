@@ -1,25 +1,25 @@
-from datetime import timezone
-# from sched import scheduler
+# from datetime import timezone
 
 
 
-import config.settings
+
+
 from mailings.models import Mailing, Log
 
 
 import logging
 from django.core.mail import send_mail
-# from django.conf import settings
-#
-# from apscheduler.schedulers.blocking import BlockingScheduler
+from config import settings
+
+from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django.core.management.base import BaseCommand
 from django_apscheduler.jobstores import DjangoJobStore
-# from django_apscheduler.models import DjangoJobExecution
-# from django_apscheduler import util
-#
-logger = logging.getLogger(__name__)
+from django_apscheduler.models import DjangoJobExecution
+from django_apscheduler import util
 
+logger = logging.getLogger(__name__)
+scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
 
 
 def change_status():
