@@ -1,10 +1,5 @@
-
-from django.utils import timezone
-
-from mailings.models import Mailing, Log
-
 import logging
-from django.core.mail import send_mail
+
 from django.conf import settings
 
 from apscheduler.schedulers.blocking import BlockingScheduler
@@ -17,17 +12,23 @@ from django_apscheduler import util
 logger = logging.getLogger(__name__)
 scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
 
+from django.utils import timezone
+
+from mailings.models import Mailing, Log
+from config.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+
 
 def change_status():
     for mailing in Mailing.objects.all():
         if timezone.now().time() < mailing.time_start:
-            mailing.status = 'created'
+            mailing.status = "created"
 
         elif mailing.time_start >= timezone.now().time() <= mailing.time_end:
-            mailing.status = 'started'
+            mailing.status = "started"
 
         else:
-            mailing.status = 'done'
+            mailing.status = "done"
             # if Log.objects.filter(mailing=mailing).exists():
             #     scheduler.remove_job(mailing.pk)
 
@@ -35,7 +36,7 @@ def change_status():
 
 
 def start_or_not_mailing():
-    mailings_for_start = Mailing.objects.filter(status='started')
+    mailings_for_start = Mailing.objects.filter(status="started")
     for mailing in mailings_for_start:
         logs = Log.objects.filter(mailing=mailing)
         if not logs.exists():
@@ -43,35 +44,40 @@ def start_or_not_mailing():
             # Log.objects.create(answer_server='Отправлено', mailing=mailing)
 
 
-def send_mailings(mailing):
-    Log.objects.create(answer_server='Отправлено', mailing=mailing)
-    title = mailing.message.title
-    body = mailing.message.message
-    from_email = settings.EMAIL_HOST_USER
-    to_emails = [client.email for client in mailing.clients.all()]
-    send_mail(title, body, from_email, to_emails,)
-
-
 def add_job(mailing):
-    if mailing.period == 'daily':
-        cron_period = CronTrigger(second='*/30')
+    if mailing.period == "daily":
+        cron_period = CronTrigger(second="*/30")
         # cron_period = CronTrigger(day='*/1')
 
-    elif mailing.period == 'weekly':
-        cron_period = CronTrigger(second='*/30')
+    elif mailing.period == "weekly":
+        cron_period = CronTrigger(second="*/30")
         # cron_period = CronTrigger(week='*/1')
 
     else:
-        cron_period = CronTrigger(second='*/30')
+        cron_period = CronTrigger(second="*/30")
         # cron_period = CronTrigger(month='*/1')
 
     scheduler.add_job(
         send_mailings,
         trigger=cron_period,
-        id=f'{mailing.pk}',
+        id=f"{mailing.pk}",
         max_instances=1,
         args=[mailing],
         replace_existing=True,
+    )
+
+
+def send_mailings(mailing):
+    Log.objects.create(answer_server="Отправлено", mailing=mailing)
+    title = mailing.message.title
+    body = mailing.message.message
+    from_email = EMAIL_HOST_USER
+    to_emails =  ["dyadyasawag@yandex.ru"] #[client.email for client in mailing.clients.all()]
+    send_mail(
+        title,
+        body,
+        from_email,
+        to_emails,
     )
 
 
@@ -80,20 +86,20 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        scheduler.add_jobstore(DjangoJobStore(), 'default')
+        scheduler.add_jobstore(DjangoJobStore(), "default")
 
         scheduler.add_job(
             change_status,
-            trigger=CronTrigger(second='*/30'),
-            id=f'change_status',
+            trigger=CronTrigger(second="*/30"),
+            id=f"change_status",
             max_instances=1,
             replace_existing=True,
         )
 
         scheduler.add_job(
             start_or_not_mailing,
-            trigger=CronTrigger(second='*/30'),
-            id=f'start_or_not_mailing',
+            trigger=CronTrigger(second="*/30"),
+            id=f"start_or_not_mailing",
             max_instances=1,
             replace_existing=True,
         )
