@@ -48,7 +48,7 @@ def start_or_not_mailing():
 
 
 def send_mailings(mailing):
-    Log.objects.create(answer_server="Отправлено", mailing=mailing)
+    Log.objects.create(answer_server="Отправлено", mailing=mailing, owner=mailing.owner)
     title = mailing.message.title
     message = mailing.message.message
     from_email = EMAIL_HOST_USER
