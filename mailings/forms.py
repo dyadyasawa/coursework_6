@@ -14,14 +14,6 @@ class StyleMixin(forms.ModelForm):
 
 class MailingForm(StyleMixin):
 
-    # def __init__(self, *args, **kwargs):
-    #     self.request = kwargs.pop('request')
-    #     user = self.request.user
-    #     user.save()
-    #     super().__init__(self, *args, **kwargs)
-    #     if self.request and user:
-    #         self.fields['clients'].queryset = Client.objects.filter(owner=user)
-
     class Meta:
         model = Mailing
         fields = "__all__"
