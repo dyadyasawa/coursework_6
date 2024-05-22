@@ -21,16 +21,23 @@ from config.settings import EMAIL_HOST_USER
 logger = logging.getLogger(__name__)
 scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
 
+from django.utils import timezone
+
+from mailings.models import Mailing, Log
+from config.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
+
 
 def change_status():
     for mailing in Mailing.objects.all():
         if timezone.now().time() < mailing.time_start:
             mailing.status = "created"
 
+
         elif mailing.time_start <= timezone.now().time() <= mailing.time_end:
             mailing.status = "started"
 
-        elif mailing.time_end < timezone.now().time():
+        elif mailing.time_end < timezone.now().time():     
             mailing.status = "done"
             # if Log.objects.filter(mailing=mailing).exists():
             #     scheduler.remove_job(mailing.pk)
@@ -61,7 +68,6 @@ def send_mailings(mailing):
         recipient_list=to_emails,
     )
 
-
 def add_job(mailing):
     if mailing.period == "daily":
         cron_period = CronTrigger(second="*/30")
@@ -85,6 +91,20 @@ def add_job(mailing):
     )
 
 
+def send_mailings(mailing):
+    Log.objects.create(answer_server="Отправлено", mailing=mailing)
+    title = mailing.message.title
+    body = mailing.message.message
+    from_email = EMAIL_HOST_USER
+    to_emails =  ["dyadyasawag@yandex.ru"] #[client.email for client in mailing.clients.all()]
+    send_mail(
+        title,
+        body,
+        from_email,
+        to_emails,
+    )
+
+
 class Command(BaseCommand):
     help = "Runs APScheduler."
 
@@ -95,7 +115,9 @@ class Command(BaseCommand):
         scheduler.add_job(
             change_status,
             trigger=CronTrigger(second="*/30"),
+
             id="change_status",
+
             max_instances=1,
             replace_existing=True,
         )
@@ -103,7 +125,9 @@ class Command(BaseCommand):
         scheduler.add_job(
             start_or_not_mailing,
             trigger=CronTrigger(second="*/30"),
+
             id="start_or_not_mailing",
+
             max_instances=1,
             replace_existing=True,
         )

@@ -57,6 +57,7 @@ class Mailing(models.Model):
         (STATUS_CREATED, "created"),
         (STATUS_STARTED, "started"),
         (STATUS_DONE, "done"),
+
     )
 
     time_start = models.TimeField(verbose_name="Время начала")
@@ -65,7 +66,9 @@ class Mailing(models.Model):
         max_length=20, default="daily", choices=PERIODS, verbose_name="Период"
     )
     status = models.CharField(
+
         max_length=20, default=STATUS_CREATED, choices=STATUSES, verbose_name="Статус"
+
     )
 
     message = models.ForeignKey(
