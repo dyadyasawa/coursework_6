@@ -13,19 +13,13 @@ from django_apscheduler import util
 from django.utils import timezone
 
 from mailings.models import Mailing, Log
-
 from django.core.mail import send_mail
-
 from config.settings import EMAIL_HOST_USER
 
 logger = logging.getLogger(__name__)
 scheduler = BlockingScheduler(timezone=settings.TIME_ZONE)
 
 from django.utils import timezone
-
-from mailings.models import Mailing, Log
-from config.settings import EMAIL_HOST_USER
-from django.core.mail import send_mail
 
 
 def change_status():
@@ -39,19 +33,17 @@ def change_status():
 
         elif mailing.time_end < timezone.now().time():     
             mailing.status = "done"
-            # if Log.objects.filter(mailing=mailing).exists():
-            #     scheduler.remove_job(mailing.pk)
 
         mailing.save()
 
 
 def start_or_not_mailing():
     mailings_for_start = Mailing.objects.filter(status="started")
+    mailings_for_start.save()
     for mailing in mailings_for_start:
         logs = Log.objects.filter(mailing=mailing)
         if not logs.exists():
             add_job(mailing)
-            # Log.objects.create(answer_server='Отправлено', mailing=mailing)
 
 
 def send_mailings(mailing):
@@ -90,19 +82,6 @@ def add_job(mailing):
         replace_existing=True,
     )
 
-
-def send_mailings(mailing):
-    Log.objects.create(answer_server="Отправлено", mailing=mailing)
-    title = mailing.message.title
-    body = mailing.message.message
-    from_email = EMAIL_HOST_USER
-    to_emails =  ["dyadyasawag@yandex.ru"] #[client.email for client in mailing.clients.all()]
-    send_mail(
-        title,
-        body,
-        from_email,
-        to_emails,
-    )
 
 
 class Command(BaseCommand):
