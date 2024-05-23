@@ -39,7 +39,6 @@ def change_status():
 
 def start_or_not_mailing():
     mailings_for_start = Mailing.objects.filter(status="started")
-    mailings_for_start.save()
     for mailing in mailings_for_start:
         logs = Log.objects.filter(mailing=mailing)
         if not logs.exists():
