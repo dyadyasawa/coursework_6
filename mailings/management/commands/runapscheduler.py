@@ -81,6 +81,12 @@ def add_job(mailing):
         replace_existing=True,
     )
 
+class TimeIsOverError(Exception):
+    """ Вызывается по истечении времени """
+    pass
+
+def time_end(mailing):
+    return mailing.time_end
 
 
 class Command(BaseCommand):
@@ -93,9 +99,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             change_status,
             trigger=CronTrigger(second="*/30"),
-
             id="change_status",
-
             max_instances=1,
             replace_existing=True,
         )
@@ -103,9 +107,7 @@ class Command(BaseCommand):
         scheduler.add_job(
             start_or_not_mailing,
             trigger=CronTrigger(second="*/30"),
-
             id="start_or_not_mailing",
-
             max_instances=1,
             replace_existing=True,
         )
@@ -117,6 +119,7 @@ class Command(BaseCommand):
         try:
             logger.info("Starting scheduler...")
             scheduler.start()
+
         except KeyboardInterrupt:
             logger.info("Stopping scheduler...")
             scheduler.shutdown()
