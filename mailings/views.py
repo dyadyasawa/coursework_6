@@ -48,6 +48,16 @@ class MailingsCreateView(CreateView):
     #     user = self.request.user
     #     return queryset.filter(user=user)
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        user = self.request.user
+        # if user.is_superuser:
+        #     queryset = queryset
+        # else:
+        queryset = queryset.filter(owner_id=user.id)
+        return queryset
+
+
 
     def form_valid(self, form):
         mailing = form.save()
