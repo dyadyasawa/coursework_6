@@ -57,8 +57,6 @@ class MailingsCreateView(CreateView):
         queryset = queryset.filter(owner_id=user.id)
         return queryset
 
-
-
     def form_valid(self, form):
         mailing = form.save()
         user = self.request.user
@@ -157,7 +155,6 @@ class MessageDeleteView(DeleteView):
 class LogsListView(ListView):
     model = Log
     template_name = "mailings_app/logs_list.html"
-
 
 
 def logs_delete(request):
