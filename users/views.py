@@ -6,11 +6,11 @@ import secrets
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, ListView, UpdateView
 
 from config import settings
 
-from users.forms import UserRegisterForm, PasswordRecoveryForm
+from users.forms import UserRegisterForm, PasswordRecoveryForm, UserUpdateForm
 from users.models import User
 from django.http import HttpResponseRedirect
 
@@ -48,3 +48,28 @@ def email_verification(request, code):
     user.is_active = True
     user.save()
     return HttpResponseRedirect("/users/login/")
+
+
+class UserListView(ListView):
+    model = User
+    template_name = "users_app/users_list.html"
+
+
+class UserUpdateView(UpdateView):
+    model = User
+    template_name = "users_app/update_user.html"
+    form_class = UserUpdateForm
+    success_url = reverse_lazy("users:users_list")
+
+# def disconnect_user(request):
+#     user = get_object_or_404(User)
+#     user.is_active = False
+#     user.save()
+#     return HttpResponseRedirect("/users/list/")
+#
+#
+# def connect_user(request):
+#     user = get_object_or_404(User)
+#     user.is_active = True
+#     user.save()
+#     return HttpResponseRedirect("/users/list/")

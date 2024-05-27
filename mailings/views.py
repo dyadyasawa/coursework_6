@@ -42,14 +42,6 @@ class MailingsCreateView(CreateView):
         kwargs.update({'request': self.request})
         return kwargs
 
-    # def get_queryset(self):
-    #     queryset = super().get_queryset()
-    #     user = self.request.user
-    #     # if user.is_superuser:
-    #     #     queryset = queryset
-    #     # else:
-    #     queryset = queryset.filter(owner_id=user.id)
-    #     return queryset
 
     def form_valid(self, form):
         mailing = form.save()
@@ -155,4 +147,3 @@ def logs_delete(request):
     logs = Log.objects.all()
     logs.delete()
     return HttpResponseRedirect('/mailings_list/')
-

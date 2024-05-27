@@ -1,3 +1,4 @@
+
 from mailings.forms import StyleMixin
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django import forms
@@ -30,3 +31,9 @@ class PasswordRecoveryForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ("email",)
+
+
+class UserUpdateForm(StyleMixin):
+    class Meta:
+        model = User
+        fields = ("is_active",)
