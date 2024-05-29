@@ -3,7 +3,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-
 from django.views.generic import (
     TemplateView,
     ListView,
@@ -15,10 +14,14 @@ from django.views.generic import (
 
 from mailings.forms import MailingForm, MessageForm, ClientForm
 from mailings.models import Mailing, Message, Client, Log
-
+from blog.models import Blog
 
 class StartPageView(TemplateView):
     template_name = "mailings_app/index.html"
+    mailing_count = Mailing.objects.all().count()
+    mailing_active_count = Mailing.objects.exclude(status = "done").count()
+    client_unique = Client.objects.all().distinct().count()
+    blog_random = Blog.objects.order_by('?')[:3]
 
 
 class MailingsListView(ListView):
