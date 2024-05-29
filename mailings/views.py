@@ -18,11 +18,26 @@ from blog.models import Blog
 
 class StartPageView(TemplateView):
     template_name = "mailings_app/index.html"
-    mailing_count = Mailing.objects.all().count()
-    mailing_active_count = Mailing.objects.exclude(status = "done").count()
-    client_unique = Client.objects.all().distinct().count()
-    blog_random = Blog.objects.order_by('?')[:3]
 
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+
+        mailing_count = Mailing.objects.all().count()
+        mailing_active_count = Mailing.objects.exclude(status = "done").count()
+        client_unique = Client.objects.all().distinct().count()
+        blog_random = Blog.objects.order_by('?')[:3]
+        blog_1 = blog_random[0]
+        blog_2 = blog_random[1]
+        blog_3 = blog_random[2]
+
+        context_data["mailing_count"] = mailing_count
+        context_data["mailing_active_count"] = mailing_active_count
+        context_data["client_unique"] = client_unique
+        context_data["blog_1"] = blog_1
+        context_data["blog_2"] = blog_2
+        context_data["blog_3"] = blog_3
+
+        return context_data
 
 class MailingsListView(ListView):
     model = Mailing
