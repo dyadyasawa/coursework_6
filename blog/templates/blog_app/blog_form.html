@@ -1,6 +1,7 @@
 {% extends 'mailings_app/base.html' %}
 
 {% block content %}
+
 <br>
     <form method="post" enctype="multipart/form-data">
         <div class="row">
@@ -12,7 +13,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-
+                        {% if object %}
+                            <h3>Редактирование</h3>
+                        {% else %}
+                            <h3>Добавление</h3>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="card-body">
@@ -20,8 +25,12 @@
                     {% csrf_token %}
                     {{ form.as_p }}
 
-                    <button type="submit" class="btn btn-success">Войти</button>
-<!--                    <a class="p-l-2 btn btn-primary" href="#">Забыли пароль?</a>-->
+                    {% if object %}
+                        <button type="submit" class="btn btn-success">Подтвердить изменения</button>
+                    {% else %}
+                        <button type="submit" class="btn btn-success">Добавить</button>
+                    {% endif %}
+
 
                 </div>
             </div>
