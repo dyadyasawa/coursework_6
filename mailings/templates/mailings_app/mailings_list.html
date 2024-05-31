@@ -21,7 +21,7 @@
                         <div class="card-body">
                             <p class="card-text">Старт рассылки: {{object.time_start}}</p>
                             <p class="card-text">Окончание рассылки: {{object.time_end}}</p>
-                            {% if user == object.owner %}
+                            {% if user == object.owner or user.is_superuser %}
                                 <a href="{% url 'mailings:mailings_detail' object.pk %}" class="btn btn-primary">Подробнее</a>
                             {% else %}
                                 {% if perms.mailings.can_change_status %}

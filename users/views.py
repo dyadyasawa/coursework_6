@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import PermissionRequiredMixin
 import random
 import secrets
 
@@ -55,7 +56,7 @@ class UserListView(ListView):
     template_name = "users_app/users_list.html"
 
 
-class UserUpdateView(UpdateView):
+class UserUpdateView(PermissionRequiredMixin, UpdateView):
     model = User
     template_name = "users_app/update_user.html"
     form_class = UserUpdateForm
