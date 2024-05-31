@@ -1,5 +1,6 @@
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
@@ -41,17 +42,17 @@ class StartPageView(TemplateView):
         return context_data
 
 
-class MailingsListView(ListView):
+class MailingsListView(LoginRequiredMixin, ListView):
     model = Mailing
     template_name = "mailings_app/mailings_list.html"
 
 
-class MailingsDetailView(DetailView):
+class MailingsDetailView(LoginRequiredMixin, DetailView):
     model = Mailing
     template_name = "mailings_app/mailings_detail.html"
 
 
-class MailingsCreateView(CreateView):
+class MailingsCreateView(LoginRequiredMixin, CreateView):
     model = Mailing
     template_name = "mailings_app/mailings_form.html"
     form_class = MailingForm
@@ -72,7 +73,7 @@ class MailingsCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MailingsUpdateView(UpdateView):
+class MailingsUpdateView(LoginRequiredMixin, UpdateView):
     model = Mailing
     template_name = "mailings_app/mailings_form.html"
     form_class = MailingForm
@@ -85,30 +86,30 @@ class MailingsUpdateView(UpdateView):
         return kwargs
 
 
-class MailingsDeleteView(DeleteView):
+class MailingsDeleteView(LoginRequiredMixin, DeleteView):
     model = Mailing
     template_name = "mailings_app/mailings_confirm_delete.html"
     success_url = reverse_lazy("mailings:mailings_list")
 
 
-class MailingsChangeStatusView(UpdateView):
+class MailingsChangeStatusView(LoginRequiredMixin, UpdateView):
     model = Mailing
     template_name = "mailings_app/mailings_change_status.html"
     form_class = MailingChangeStatusForm
     success_url = reverse_lazy("mailings:mailings_list")
 
 
-class ClientListView(ListView):
+class ClientListView(LoginRequiredMixin, ListView):
     model = Client
     template_name = "mailings_app/client_list.html"
 
 
-class ClientDetailView(DetailView):
+class ClientDetailView(LoginRequiredMixin, DetailView):
     model = Client
     template_name = "mailings_app/client_detail.html"
 
 
-class ClientCreateView(CreateView):
+class ClientCreateView(LoginRequiredMixin, CreateView):
     model = Client
     template_name = "mailings_app/client_form.html"
     form_class = ClientForm
@@ -123,30 +124,30 @@ class ClientCreateView(CreateView):
         return super().form_valid(form)
 
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UpdateView):
     model = Client
     template_name = "mailings_app/client_form.html"
     form_class = ClientForm
     success_url = reverse_lazy("mailings:client_list")
 
 
-class ClientDeleteView(DeleteView):
+class ClientDeleteView(LoginRequiredMixin, DeleteView):
     model = Client
     template_name = "mailings_app/client_confirm_delete.html"
     success_url = reverse_lazy("mailings:client_list")
 
 
-class MessageListView(ListView):
+class MessageListView(LoginRequiredMixin, ListView):
     model = Message
     template_name = "mailings_app/message_list.html"
 
 
-class MessageDetailView(DetailView):
+class MessageDetailView(LoginRequiredMixin, DetailView):
     model = Message
     template_name = "mailings_app/message_detail.html"
 
 
-class MessageCreateView(CreateView):
+class MessageCreateView(LoginRequiredMixin, CreateView):
     model = Message
     template_name = "mailings_app/message_form.html"
     form_class = MessageForm
@@ -161,14 +162,14 @@ class MessageCreateView(CreateView):
         return super().form_valid(form)
 
 
-class MessageUpdateView(UpdateView):
+class MessageUpdateView(LoginRequiredMixin, UpdateView):
     model = Message
     template_name = "mailings_app/message_form.html"
     form_class = MessageForm
     success_url = reverse_lazy("mailings:message_list")
 
 
-class MessageDeleteView(DeleteView):
+class MessageDeleteView(LoginRequiredMixin,DeleteView):
     model = Message
     template_name = "mailings_app/message_confirm_delete.html"
     success_url = reverse_lazy("mailings:message_list")
