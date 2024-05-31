@@ -141,7 +141,7 @@ LOGIN_REDIRECT_URL = "/mailings_list/"
 LOGOUT_REDIRECT_URL = "/"
 
 # REDIRECT_LOGIN_URL = '/users/login'
-# LOGIN_URL = '/users/login/'
+LOGIN_URL = '/users/login/'
 
 
 EMAIL_HOST = "smtp.yandex.ru"

@@ -56,21 +56,9 @@ class UserListView(ListView):
     template_name = "users_app/users_list.html"
 
 
-class UserUpdateView(PermissionRequiredMixin, UpdateView):
+class UserUpdateView(PermissionRequiredMixin, UpdateView): #  Очередность имеет значение
     model = User
     template_name = "users_app/update_user.html"
     form_class = UserUpdateForm
+    permission_required = ("users.can_deactivate_user",)
     success_url = reverse_lazy("users:users_list")
-
-# def disconnect_user(request):
-#     user = get_object_or_404(User)
-#     user.is_active = False
-#     user.save()
-#     return HttpResponseRedirect("/users/list/")
-#
-#
-# def connect_user(request):
-#     user = get_object_or_404(User)
-#     user.is_active = True
-#     user.save()
-#     return HttpResponseRedirect("/users/list/")
