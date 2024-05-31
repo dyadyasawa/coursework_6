@@ -20,10 +20,11 @@ from mailings.views import (
     MessageUpdateView,
     MessageDeleteView,
     LogsListView, logs_delete,
-
+    MailingsChangeStatusView
 )
 
 app_name = MailingsConfig.name
+
 
 
 urlpatterns = [
@@ -35,6 +36,7 @@ urlpatterns = [
     path("mailings_create/", MailingsCreateView.as_view(), name="mailings_create"),
     path("mailings_update/<int:pk>/", MailingsUpdateView.as_view(), name="mailings_update"),
     path("mailings_delete/<int:pk>/", MailingsDeleteView.as_view(), name="mailings_delete"),
+    path("mailings_change_status/<int:pk>/", MailingsChangeStatusView.as_view(), name="mailings_change_status"),
 
 
     path("client_list/", ClientListView.as_view(), name="client_list"),

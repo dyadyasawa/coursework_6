@@ -13,16 +13,25 @@
             <div class="card">
                 <div class="card-header">
                     <div class="card-title">
-                            <h3>Активация(деактивация) пользователя {{object.email}}</h3>
+                        Изменение статуса рассылки
                     </div>
                 </div>
                 <div class="card-body">
+
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <button type="submit" class="btn btn-success">Подтвердить</button>
+
+                    <button type="submit" class="btn btn-success">Подтвердить изменения</button>
+
                 </div>
             </div>
         </div>
+             <div class="col-2">
+
+             </div>
+
+            <div class="col-1">
+            </div>
 
         </div>
     </form>
