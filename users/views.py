@@ -10,7 +10,7 @@ from django.views.generic import CreateView, TemplateView, ListView, UpdateView
 
 from config import settings
 
-from users.forms import UserRegisterForm, PasswordRecoveryForm, UserUpdateForm
+from users.forms import UserRegisterForm, UserUpdateForm
 from users.models import User
 from django.http import HttpResponseRedirect
 

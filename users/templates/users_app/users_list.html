@@ -14,7 +14,7 @@
                     <div class="card-body">
                         <p class="card-text">Телефон: {{object.phone}}</p>
                         <p class="card-text">Страна: {{object.country}}</p>
-                        {% if user.is_staff or user.is_superuser %}
+                        {% if user.is_superuser or perms.users.can_deactivate_user %}
                             <a href="{% url 'users:update_user' object.pk %}" class="btn btn-outline-primary">Режим активации</a>
                         {% endif %}
                     </div>

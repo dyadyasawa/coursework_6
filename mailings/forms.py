@@ -27,8 +27,9 @@ class MailingForm(StyleMixin):
 
 
 class MailingChangeStatusForm(StyleMixin):
-    model = Mailing
-    fields = ("status",)
+    class Meta:
+        model = Mailing
+        fields = ("status",)
 
 
 class MessageForm(StyleMixin):
