@@ -26,6 +26,11 @@ class MailingForm(StyleMixin):
         self.fields["message"].queryset = Message.objects.filter(owner=user)
 
 
+class MailingChangeStatusForm(StyleMixin):
+    model = Mailing
+    fields = ("status",)
+
+
 class MessageForm(StyleMixin):
 
     class Meta:
