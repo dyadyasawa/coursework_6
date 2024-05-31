@@ -56,9 +56,9 @@ class UserListView(ListView):
     template_name = "users_app/users_list.html"
 
 
-class UserUpdateView(UpdateView, PermissionRequiredMixin):
+class UserUpdateView(PermissionRequiredMixin, UpdateView): #  Очередность имеет значение
     model = User
     template_name = "users_app/update_user.html"
     form_class = UserUpdateForm
-    permission_required = "users.can_deactivate_user"
+    permission_required = ("users.can_deactivate_user",)
     success_url = reverse_lazy("users:users_list")
