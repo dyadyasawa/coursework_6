@@ -5,7 +5,9 @@
 <br>
 <div class="container">
     <div class="text-end">
-        <a class="btn btn-outline-secondary" href="{% url 'blog:blog_create' %}">Добавить статью</a>
+        {% if user.is_superuser %}
+            <a class="btn btn-outline-secondary" href="{% url 'blog:blog_create' %}">Добавить статью</a>
+        {% endif %}
     </div>
     <br>
     <div class="row">
