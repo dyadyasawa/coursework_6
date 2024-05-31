@@ -1,6 +1,6 @@
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
-from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
@@ -25,7 +25,7 @@ class StartPageView(TemplateView):
         context_data = super().get_context_data(*args, **kwargs)
 
         mailing_count = Mailing.objects.all().count()
-        mailing_active_count = Mailing.objects.exclude(status = "done").count()
+        mailing_active_count = Mailing.objects.exclude(status="done").count()
         client_unique = Client.objects.all().distinct().count()
         blog_random = Blog.objects.order_by('?')[:3]
         blog_1 = blog_random[0]

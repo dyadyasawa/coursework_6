@@ -51,7 +51,7 @@ def email_verification(request, code):
     return HttpResponseRedirect("/users/login/")
 
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, ListView):
     model = User
     template_name = "users_app/users_list.html"
 
