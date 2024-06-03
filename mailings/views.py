@@ -1,6 +1,7 @@
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
@@ -169,17 +170,18 @@ class MessageUpdateView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("mailings:message_list")
 
 
-class MessageDeleteView(LoginRequiredMixin,DeleteView):
+class MessageDeleteView(LoginRequiredMixin, DeleteView):
     model = Message
     template_name = "mailings_app/message_confirm_delete.html"
     success_url = reverse_lazy("mailings:message_list")
 
 
-class LogsListView(ListView):
+class LogsListView(LoginRequiredMixin, ListView):
     model = Log
     template_name = "mailings_app/logs_list.html"
 
 
+@login_required()
 def logs_delete(request):
     """ Удаление логов """
     logs = Log.objects.all()

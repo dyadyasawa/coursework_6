@@ -53,6 +53,6 @@ urlpatterns = [
     path("message_delete/<int:pk>/", MessageDeleteView.as_view(), name="message_delete"),
 
     path("logs_list/", LogsListView.as_view(), name="logs_list"),
-    path("logs_delete", logs_delete, name='logs_delete'),
+    path("logs_delete/", logs_delete, name='logs_delete'),
 
 ]
