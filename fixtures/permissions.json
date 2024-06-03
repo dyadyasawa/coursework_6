@@ -1,1 +1,20 @@
-[{"model": "auth.permission", "pk": 53, "fields": {"name": "Can change status", "content_type": 8, "codename": "can_change_status"}}, {"model": "auth.permission", "pk": 54, "fields": {"name": "Can deactivate user", "content_type": 10, "codename": "can_deactivate_user"}}]
+[
+  {
+    "model": "auth.permission",
+    "pk": 53,
+    "fields": {
+      "name": "Can change status",
+      "content_type": 8,
+      "codename": "can_change_status"
+    }
+  },
+  {
+    "model": "auth.permission",
+    "pk": 54,
+    "fields": {
+      "name": "Can deactivate user",
+      "content_type": 10,
+      "codename": "can_deactivate_user"
+    }
+  }
+]
