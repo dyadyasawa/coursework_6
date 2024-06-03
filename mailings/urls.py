@@ -26,7 +26,6 @@ from mailings.views import (
 app_name = MailingsConfig.name
 
 
-
 urlpatterns = [
     path("", StartPageView.as_view(), name="start_page"),
 

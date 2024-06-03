@@ -20,7 +20,7 @@ class RegisterMessageView(TemplateView):
     template_name = "users_app/register_message.html"
 
 
-class UserCreateView(CreateView):
+class UserCreateView(LoginRequiredMixin, CreateView):
     model = User
     template_name = "users_app/user_form.html"
     form_class = UserRegisterForm
@@ -56,7 +56,7 @@ class UserListView(LoginRequiredMixin, ListView):
     template_name = "users_app/users_list.html"
 
 
-class UserUpdateView(PermissionRequiredMixin, UpdateView):  # Очередность имеет значение
+class UserUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):  # Очередность имеет значение
     model = User
     template_name = "users_app/update_user.html"
     form_class = UserUpdateForm
