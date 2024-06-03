@@ -42,12 +42,10 @@ class StartPageView(TemplateView):
         return context_data
 
 
-class MailingsListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
+class MailingsListView(LoginRequiredMixin, ListView):
     model = Mailing
     template_name = "mailings_app/mailings_list.html"
 
-    def test_func(self):
-        pass
 
 class MailingsDetailView(LoginRequiredMixin, DetailView):
     model = Mailing
