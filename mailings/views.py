@@ -105,15 +105,13 @@ class MailingsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return mailing.owner == self.request.user
 
 
-class MailingsChangeStatusView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class MailingsChangeStatusView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Mailing
     template_name = "mailings_app/mailings_change_status.html"
     form_class = MailingChangeStatusForm
     success_url = reverse_lazy("mailings:mailings_list")
+    permission_required = ("mailings.can_change_status",)
 
-    def test_func(self):
-        mailing = self.get_object()
-        return mailing.owner == self.request.user
 
 
 class ClientListView(LoginRequiredMixin, ListView):
