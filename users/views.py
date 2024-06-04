@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
 import random
 import secrets
 
@@ -10,7 +11,7 @@ from django.views.generic import CreateView, TemplateView, ListView, UpdateView
 
 from config import settings
 
-from users.forms import UserRegisterForm, PasswordRecoveryForm, UserUpdateForm
+from users.forms import UserRegisterForm, UserUpdateForm
 from users.models import User
 from django.http import HttpResponseRedirect
 
@@ -50,26 +51,20 @@ def email_verification(request, code):
     return HttpResponseRedirect("/users/login/")
 
 
-class UserListView(ListView):
+class UserListView(LoginRequiredMixin, UserPassesTestMixin, ListView):
     model = User
     template_name = "users_app/users_list.html"
 
+    def test_func(self):
+        user = self.request.user
+        if user.is_superuser or user.is_staff:
+            return True
+        return False
 
-class UserUpdateView(UpdateView):
+
+class UserUpdateView(PermissionRequiredMixin, UpdateView):  # Очередность имеет значение
     model = User
     template_name = "users_app/update_user.html"
     form_class = UserUpdateForm
+    permission_required = ("users.can_deactivate_user",)
     success_url = reverse_lazy("users:users_list")
-
-# def disconnect_user(request):
-#     user = get_object_or_404(User)
-#     user.is_active = False
-#     user.save()
-#     return HttpResponseRedirect("/users/list/")
-#
-#
-# def connect_user(request):
-#     user = get_object_or_404(User)
-#     user.is_active = True
-#     user.save()
-#     return HttpResponseRedirect("/users/list/")
