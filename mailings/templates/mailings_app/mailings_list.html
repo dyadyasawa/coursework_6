@@ -4,7 +4,7 @@
 <br>
 <div class="container">
     <div class="text-end">
-        {% if not user.is_staff %}
+        {% if not user.is_staff or user.is_superuser %}
             <a class="btn btn-outline-secondary" href="{% url 'mailings:mailings_create' %}">Создать рассылку</a>
         {% endif %}
         <a class="p-l-2 btn btn-outline-primary" href="{% url 'mailings:logs_list' %}">Логи</a>
