@@ -48,9 +48,13 @@ class MailingsListView(LoginRequiredMixin, ListView):
     template_name = "mailings_app/mailings_list.html"
 
 
-class MailingsDetailView(LoginRequiredMixin, DetailView):
+class MailingsDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Mailing
     template_name = "mailings_app/mailings_detail.html"
+
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
 
 class MailingsCreateView(LoginRequiredMixin, CreateView):
@@ -74,7 +78,7 @@ class MailingsCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class MailingsUpdateView(LoginRequiredMixin, UpdateView):
+class MailingsUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Mailing
     template_name = "mailings_app/mailings_form.html"
     form_class = MailingForm
@@ -86,18 +90,30 @@ class MailingsUpdateView(LoginRequiredMixin, UpdateView):
         kwargs.update({'request': self.request})
         return kwargs
 
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
-class MailingsDeleteView(LoginRequiredMixin, DeleteView):
+
+class MailingsDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Mailing
     template_name = "mailings_app/mailings_confirm_delete.html"
     success_url = reverse_lazy("mailings:mailings_list")
 
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
-class MailingsChangeStatusView(LoginRequiredMixin, UpdateView):
+
+class MailingsChangeStatusView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Mailing
     template_name = "mailings_app/mailings_change_status.html"
     form_class = MailingChangeStatusForm
     success_url = reverse_lazy("mailings:mailings_list")
+
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
 
 class ClientListView(LoginRequiredMixin, ListView):
@@ -105,9 +121,13 @@ class ClientListView(LoginRequiredMixin, ListView):
     template_name = "mailings_app/client_list.html"
 
 
-class ClientDetailView(LoginRequiredMixin, DetailView):
+class ClientDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Client
     template_name = "mailings_app/client_detail.html"
+
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
 
 class ClientCreateView(LoginRequiredMixin, CreateView):
@@ -125,17 +145,25 @@ class ClientCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class ClientUpdateView(LoginRequiredMixin, UpdateView):
+class ClientUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Client
     template_name = "mailings_app/client_form.html"
     form_class = ClientForm
     success_url = reverse_lazy("mailings:client_list")
 
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
-class ClientDeleteView(LoginRequiredMixin, DeleteView):
+
+class ClientDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Client
     template_name = "mailings_app/client_confirm_delete.html"
     success_url = reverse_lazy("mailings:client_list")
+
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
 
 class MessageListView(LoginRequiredMixin, ListView):
@@ -143,9 +171,13 @@ class MessageListView(LoginRequiredMixin, ListView):
     template_name = "mailings_app/message_list.html"
 
 
-class MessageDetailView(LoginRequiredMixin, DetailView):
+class MessageDetailView(LoginRequiredMixin, UserPassesTestMixin, DetailView):
     model = Message
     template_name = "mailings_app/message_detail.html"
+
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
 
 class MessageCreateView(LoginRequiredMixin, CreateView):
@@ -163,17 +195,25 @@ class MessageCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class MessageUpdateView(LoginRequiredMixin, UpdateView):
+class MessageUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Message
     template_name = "mailings_app/message_form.html"
     form_class = MessageForm
     success_url = reverse_lazy("mailings:message_list")
 
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
-class MessageDeleteView(LoginRequiredMixin,DeleteView):
+
+class MessageDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Message
     template_name = "mailings_app/message_confirm_delete.html"
     success_url = reverse_lazy("mailings:message_list")
+
+    def test_func(self):
+        mailing = self.get_object()
+        return mailing.owner == self.request.user
 
 
 class LogsListView(LoginRequiredMixin, ListView):
