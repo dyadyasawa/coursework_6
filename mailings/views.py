@@ -1,3 +1,5 @@
+import random
+
 from django.forms import inlineformset_factory
 from django.http import HttpResponseRedirect
 from django.contrib.auth.mixins import PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin
@@ -28,17 +30,13 @@ class StartPageView(TemplateView):
         mailing_count = Mailing.objects.all().count()
         mailing_active_count = Mailing.objects.exclude(status="done").count()
         client_unique = Client.objects.all().distinct().count()
-        blog_random = Blog.objects.order_by('?')[:3]
-        blog_1 = blog_random[0]
-        blog_2 = blog_random[1]
-        blog_3 = blog_random[2]
+        blog_list = list(Blog.objects.all())
+        random.shuffle(blog_list)
 
         context_data["mailing_count"] = mailing_count
         context_data["mailing_active_count"] = mailing_active_count
         context_data["client_unique"] = client_unique
-        context_data["blog_1"] = blog_1
-        context_data["blog_2"] = blog_2
-        context_data["blog_3"] = blog_3
+        context_data["blog_list"] = blog_list[:3]
 
         return context_data
 
